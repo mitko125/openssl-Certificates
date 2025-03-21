@@ -129,3 +129,16 @@ openssl x509 -in servercert.pem -text -noout
 Готови сме. Трябва да вградим в сървъра двата файла [servercert.pem](#3-генерирайте-сертификата-на-сървъра-за-500-дни) и [prvtkey.pem](#1-създайте-ключа-на-сертификата).
 
 ## Единичен сървърен сертификат
+
+В примерите на [ESP-IDF](https://github.com/espressif/esp-idf/tree/master/examples/protocols/https_server), правят сертификат с една команда:
+
+```text
+openssl req -newkey rsa:2048 -nodes -keyout prvtkey.pem -x509 -days 3650 -out servercert.pem -subj "/CN=test_esp32_cert.local"
+```
+
+Имаме само `CN = ..`, няма `DNS... = ..` и `IP... = ..`. Но и така работи с трите адреса <https://192.168.1.105/>, <https://test_esp32_cert/> и <https://test_esp32_cert.local/>.  
+Ако ни трябват, ще се направи комбинация с [горния метод](#2-създаване-на-подпис-за-сертификата-csr) и опцията `-nodes`.
+
+## ЗАКЛЮЧЕНИЕ
+
+Самоподписаните сертификати стават за вътрешни тестове. Май са вършели работа преди 2018г. Но сега трябва да се търся други пътища като `Reverse PROXY`, `Let's Encrypt`.
