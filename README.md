@@ -142,3 +142,19 @@ openssl req -newkey rsa:2048 -nodes -keyout prvtkey.pem -x509 -days 3650 -out se
 ## ЗАКЛЮЧЕНИЕ
 
 Самоподписаните сертификати стават за вътрешни тестове. Май са вършели работа преди 2018г. Но сега трябва да се търся други пътища като `Reverse PROXY`, `Let's Encrypt`.
+
+## Допълнително
+
+### Получаване сертификатите на някой сървър
+
+Например на `api.ipgeolocation.io`:
+
+```text
+openssl s_client -connect api.ipgeolocation.io:443 -showcerts < /dev/null >geo_root_cert.pem
+```
+
+И да го проверим:
+
+```text
+openssl x509 -in geo_root_cert.pem -text -noout
+```
