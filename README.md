@@ -158,3 +158,12 @@ openssl s_client -connect api.ipgeolocation.io:443 -showcerts < /dev/null >geo_r
 ```text
 openssl x509 -in geo_root_cert.pem -text -noout
 ```
+
+### Най-простият начин за генериране на частен ключ и самоподписан сертификат за localhost е с тази команда openssl (но не е за `CMD` а за `Cygwin64`)
+
+```text
+openssl req -x509 -out localhost.crt -keyout localhost.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+```
